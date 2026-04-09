@@ -1,0 +1,325 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Рыцарский квест</title>
+  <link href="https://fonts.googleapis.com/css2?family=Allura&family=Cinzel:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  body {
+    background: url('https://i.pinimg.com/originals/77/79/44/777944c13e0dfe93b9a0ff9151156fdb.jpg') repeat;
+    background-size: auto;
+    font-family: 'Allura', cursive;
+    color: #333333;
+    min-height: 100vh;
+    padding: 20px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+  }
+
+  .screen {
+    display: none;
+    width: 90%;
+    max-width: 800px;
+    background: rgba(253, 249, 243, 0.88);
+    padding: 40px 30px;
+    border-radius: 20px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.25);
+    position: relative;
+  }
+
+  .screen.active {
+    display: block;
+    animation: fadeIn 1s ease;
+  }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  h1 {
+    font-family: 'Cinzel', serif;
+    font-weight: 600;
+    font-size: 2.6rem;
+    line-height: 1.35;
+    margin-bottom: 25px;
+    color: #333333;
+    text-shadow: 1px 1px 2px rgba(255,255,255,0.6);
+  }
+
+  p {
+    font-size: 1.45rem;
+    line-height: 1.65;
+    margin: 15px 0;
+  }
+
+  #typing-text {
+    font-size: 1.45rem;
+    line-height: 1.65;
+    margin: 15px 0;
+    visibility: hidden;
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 2px;
+    height: 1.2em;
+    background: #880e4f;
+    margin-left: 2px;
+    animation: blink 1s infinite;
+  }
+
+  @keyframes blink {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0; }
+  }
+
+  input {
+    font-family: 'Allura', cursive;
+    font-size: 1.35rem;
+    padding: 12px 18px;
+    margin: 15px 0;
+    width: 220px;
+    border: 2px solid #e0c8b3;
+    border-radius: 14px;
+    background: #fffdf9;
+    outline: none;
+    box-shadow: inset 0 2px 4px rgba(0,0,0,0.05);
+  }
+
+  button, .photo-btn {
+    font-family: 'Cinzel', serif;
+    font-size: 1.25rem;
+    font-weight: 600;
+    padding: 14px 28px;
+    margin: 15px 8px;
+    background: #c2185b;
+    color: white;
+    border: none;
+    border-radius: 50px;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    box-shadow: 0 4px 10px rgba(194, 24, 91, 0.3);
+  }
+
+  button:hover {
+    background: #ad1457;
+    transform: translateY(-3px);
+    box-shadow: 0 6px 14px rgba(194, 24, 91, 0.4);
+  }
+
+  .shake {
+    animation: shake 0.6s;
+  }
+
+  @keyframes shake {
+    0%, 100% { transform: translateX(0); }
+    25% { transform: translateX(-12px); }
+    75% { transform: translateX(12px); }
+  }
+
+  .photos {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 20px;
+    margin: 25px 0;
+  }
+
+  .photo-btn {
+    width: 130px;
+    height: 130px;
+    background-size: cover;
+    background-position: center;
+    border-radius: 16px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.15);
+  }
+
+  /* Заглушки фото */
+  #photo1 { background-image: url('https://i.ibb.co/wNQLN0YY/fc895b26-e60f-43b2-af5e-1640536c3edf.jpg'); }
+  #photo2 { background-image: url('https://i.ibb.co/bRWCtXgw/c4f780a9-00f4-42e3-9412-7245a1fdf983.jpg'); }
+  #photo3 { background-image: url('https://i.ibb.co/V0vzz6F6/ed3f0f53-5ae8-4236-b7bf-751919f64192.jpg'); }
+
+  /* Стили для экрана 5 — текст как на других экранах */
+  #screen5 #final-intro,
+  #screen5 #reward-text {
+    text-shadow: none !important;
+  }
+
+  #reward-text {
+    font-family: 'Cinzel', serif;
+    font-size: 1.6rem;
+    font-weight: 600;
+    color: #880e4f;
+    line-height: 1.4;
+  }
+
+    /* === ЭКРАН 6: ЗАКЛЮЧЕНИЕ === */
+    #screen6 {
+      background: url('https://i.pinimg.com/originals/77/79/44/777944c13e0dfe93b9a0ff9151156fdb.jpg') repeat !important;
+      background-size: auto !important;
+      color: #333333 !important;
+    }
+
+    #ending-text {
+      font-size: 1.8rem;
+      line-height: 1.6;
+      margin-top: 20px;
+      color: #333333;
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2.0rem; }
+      p, #typing-text { font-size: 1.3rem; }
+      #reward-text { font-size: 1.7rem; }
+      #ending-text { font-size: 1.5rem; }
+      .screen { padding: 25px 15px; }
+      input { width: 180px; font-size: 1.25rem; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Экран 1: Старт с эффектом печатания -->
+  <div id="screen1" class="screen active">
+    <h1>О бравый рыцарь! Прекрасная дама грезит тем, чтобы пригласить Вас на романтическое rendez-vous</h1>
+    <p id="static-text">Но, как в любой сказке, тёмные силы мешают воцарению добра и любви, поэтому они сбили с пути почтового голубя, который нёс вам карту с местом встречи.</p>
+    <div id="typing-text"></div>
+    <button id="start-btn" style="display:none;" onclick="showScreen(2)">Готов, ради дамы сердца 🌹</button>
+  </div>
+
+  <!-- Экран 2: Вояжи -->
+  <div id="screen2" class="screen">
+    <p>Припомните, сколько раз Вы вы отправлялись в вояжи длительные с вашей спутницей? Правильный ответ сделает вас на несколько вёрст ближе к цели!</p>
+    <input type="text" id="voyageAnswer" placeholder="Число...">
+    <br>
+    <button onclick="checkVoyage()">Проверить</button>
+    <p id="voyageHint" style="color: #c2185b; display:none;">Что-то запамятовали или добавили лишнего. Учитывайте только такие турне, что включали не менее четырёх восходов солнц</p>
+  </div>
+
+  <!-- Экран 3: Перевёрнутая фраза -->
+  <div id="screen3" class="screen">
+    <p>?арги яакат ьсалачан ызарф йокак С</p>
+    <input type="text" id="riddleAnswer" placeholder="Ответ...">
+    <br>
+    <button onclick="checkRiddle()">Проверить</button>
+    <p id="riddleHint" style="color: #c2185b; display:none;">Прогулка по Крылатскому, взбираемся на какой-то холм и Вы загадываете мне перевернуть фразу.... Попробуйте вписать с маленькой буквы!</p>
+  </div>
+
+  <!-- Экран 4: Фото -->
+  <div id="screen4" class="screen">
+    <p>Самый счастливый из Ваших, сударь, дней?</p>
+    <div class="photos">
+      <div id="photo1" class="photo-btn" onclick="shakePhoto(this)"></div>
+      <div id="photo2" class="photo-btn" onclick="shakePhoto(this)"></div>
+      <div id="photo3" class="photo-btn" onclick="shakePhoto(this)"></div>
+    </div>
+    <p id="photoMessage" style="color: #c2185b; display:none;">Неверно!  Каждый из этих дней.  Ведь все эти дни Вы были со своей ненаглядной спутницей!</p>
+    <button id="truthBtn" style="display:none;" onclick="showScreen(5)">Абсолютная правда!</button>
+  </div>
+
+  <!-- Экран 5: Финал -->
+  <div id="screen5" class="screen">
+    <p id="final-intro">О рыцарь, вы доблестно прошли все испытания и заслужили истинную награду — пламенный поцелуй от той, которая рада бы прийти к вам во сне, да они вам не снятся. Придётся встречаться наяву!</p>
+    <p id="final-intro">Да не задержат вас тёмные силы ❤️</p>
+  
+  <div id="reward-text">
+    Награда будет ждать вас:<br>
+    11.04.2026 в 14:10<br>
+    55.769270, 37.596455
+  </div>
+  
+  <button onclick="showScreen(6)">Записал, милая дама!</button>
+</div>
+
+  <!-- Экран 6: Заключение -->
+  <div id="screen6" class="screen">
+    <div id="ending-text">Каждому вайбкодеру по навайбкоденному приглашению на свидание!</p>
+    <p id="ending-text">Целую и жду встречи ❤️
+    </div>
+  </div>
+
+  <script>
+    // === Печатание текста ===
+    const fullText = "Чтобы узнать, где и когда искать Вашу воздыхательницу, придётся Вам пройти несколько испытаний";
+    const typingElement = document.getElementById("typing-text");
+    const startButton = document.getElementById("start-btn");
+    let index = 0;
+
+    function typeNext() {
+      if (index < fullText.length) {
+        typingElement.style.visibility = 'visible';
+        typingElement.innerHTML = fullText.substring(0, index + 1) + '<span class="cursor"></span>';
+        index++;
+        setTimeout(typeNext, 60);
+      } else {
+        setTimeout(() => {
+          startButton.style.display = 'inline-block';
+        }, 500);
+      }
+    }
+
+    window.addEventListener('load', () => {
+      setTimeout(typeNext, 800);
+    });
+
+    // === Навигация ===
+    function showScreen(n) {
+  // Скрываем все экраны
+  document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+  document.getElementById(`screen${n}`).classList.add('active');
+  
+  // Меняем фон body в зависимости от экрана
+  const body = document.body;
+  if (n === 5) {
+    // Фон на экране 5 — твоё фото
+    body.style.background = "url('https://i.imghippo.com/files/EVJ9653a.png') no-repeat center center";
+    body.style.backgroundSize = "cover";
+    body.style.backgroundAttachment = "fixed";
+  } else {
+    // Пергамент на всех остальных
+    body.style.background = "url('https://i.pinimg.com/originals/77/79/44/777944c13e0dfe93b9a0ff9151156fdb.jpg') repeat";
+    body.style.backgroundSize = "auto";
+  }
+}
+
+    function checkVoyage() {
+      const ans = document.getElementById("voyageAnswer").value.trim();
+      if (ans === "4") {
+        showScreen(3);
+      } else {
+        document.getElementById("voyageHint").style.display = "block";
+      }
+    }
+
+    function checkRiddle() {
+      const ans = document.getElementById("riddleAnswer").value.trim().toLowerCase();
+      if (ans === "рех килев") {
+        showScreen(4);
+      } else {
+        document.getElementById("riddleHint").style.display = "block";
+      }
+    }
+
+    let clickedCount = 0;
+    function shakePhoto(el) {
+      el.classList.add('shake');
+      setTimeout(() => el.classList.remove('shake'), 600);
+      clickedCount++;
+      if (clickedCount >= 3) {
+        document.getElementById("photoMessage").style.display = "block";
+        document.getElementById("truthBtn").style.display = "inline-block";
+      }
+    }
+  </script>
+</body>
+</html>
