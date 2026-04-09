@@ -3,59 +3,215 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Свидание со мной? 💕</title>
+  <title>Послание от одной дамы...</title>
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;700&family=MedievalSharp&family=IM+Fell+English&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      height: 100vh;
-      background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
-      background-size: cover;
+    }
+
+    body {
+      background: url('https://i.pinimg.com/originals/77/79/44/777944c13e0dfe93b9a0ff9151156fdb.jpg') repeat;
+      font-family: 'IM Fell English', serif;
+      color: #3b2314;
+      min-height: 100vh;
+      padding: 20px;
       display: flex;
-      flex-direction: column;
       justify-content: center;
       align-items: center;
       text-align: center;
-      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
-      color: white;
-      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    .screen {
+      display: none;
+      width: 90%;
+      max-width: 800px;
+      background: url('https://i.imgur.com/5kF6VdP.jpg') center/cover no-repeat;
+      background-size: 100% 100%;
+      padding: 40px 30px;
+      border: 12px solid #8B4513;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.5);
+      position: relative;
+    }
+
+    .screen.active {
+      display: block;
+      animation: fadeIn 1s ease;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
     }
 
     h1 {
-      font-size: 2.8rem;
-      margin-bottom: 30px;
+      font-family: 'MedievalSharp', cursive;
+      font-size: 2.4rem;
+      line-height: 1.3;
+      margin-bottom: 25px;
+      color: #5a3921;
+      text-shadow: 2px 2px 3px rgba(255,255,255,0.3);
     }
 
-    .btn {
-      background-color: #ff69b4;
-      color: white;
-      border: none;
-      padding: 14px 28px;
-      margin: 10px;
+    p {
+      font-size: 1.3rem;
+      line-height: 1.6;
+      margin: 15px 0;
+    }
+
+    input {
+      font-family: 'IM Fell English', serif;
       font-size: 1.2rem;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: all 0.3s ease;
-      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+      padding: 10px 15px;
+      margin: 15px 0;
+      width: 200px;
+      border: 2px solid #8B4513;
+      background: rgba(255, 250, 240, 0.8);
+      outline: none;
     }
 
-    .btn:hover {
-      background-color: #ff1493;
-      transform: scale(1.05);
+    button, .photo-btn {
+      font-family: 'Cinzel', serif;
+      font-size: 1.2rem;
+      padding: 12px 24px;
+      margin: 15px 5px;
+      background: #d4af37;
+      color: #3b2314;
+      border: 2px solid #8B4513;
+      cursor: pointer;
+      transition: all 0.3s;
+      box-shadow: 0 4px 6px rgba(0,0,0,0.2);
     }
+
+    button:hover {
+      background: #c5a02a;
+      transform: translateY(-2px);
+    }
+
+    .shake {
+      animation: shake 0.5s;
+    }
+
+    @keyframes shake {
+      0%, 100% { transform: translateX(0); }
+      25% { transform: translateX(-10px); }
+      75% { transform: translateX(10px); }
+    }
+
+    .photos {
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 15px;
+      margin: 20px 0;
+    }
+
+    .photo-btn {
+      width: 120px;
+      height: 120px;
+      background-size: cover;
+      background-position: center;
+      border-radius: 8px;
+    }
+
+    /* Заглушка для фото — замени на свои */
+    #photo1 { background-image: url('https://via.placeholder.com/120/8B4513/FFFFFF?text=День+1'); }
+    #photo2 { background-image: url('https://via.placeholder.com/120/5D4037/FFFFFF?text=День+2'); }
+    #photo3 { background-image: url('https://via.placeholder.com/120/3E2723/FFFFFF?text=День+3'); }
 
     @media (max-width: 600px) {
-      h1 { font-size: 2rem; }
-      .btn { padding: 12px 24px; font-size: 1rem; }
+      h1 { font-size: 1.8rem; }
+      p { font-size: 1.1rem; }
+      .screen { padding: 25px 15px; }
     }
   </style>
 </head>
 <body>
-  <h1>Хочешь провести вечер со мной? 💖</h1>
-  
-  <!-- ЗАМЕНИ ССЫЛКИ НИЖЕ НА СВОИ -->
-  <button class="btn" onclick="window.open('https://maps.app.goo.gl/ВАША_ССЫЛКА_НА_КАРТУ', '_blank')">Куда мы идём?</button>
-  <button class="btn" onclick="window.open('https://wa.me/ВАШ_НОМЕР_ТЕЛЕФОНА', '_blank')">Написать мне 💬</button>
-  <button class="btn" onclick="window.open('https://youtu.be/ВАШЕ_ВИДЕО_ID', '_blank')">Посмотри это ❤️</button>
+
+  <!-- Экран 1: Старт -->
+  <div id="screen1" class="screen active">
+    <h1>О бравый рыцарь! Прекрасная дама грезит тем, чтобы пригласить Вас на романтическое rendez-vous</h1>
+    <p>Но, как в любой сказке, тёмные силы мешают воцарению добра и любви, поэтому они сбили с пути почтового голубя, который нёс вам карту с местом встречи. Чтобы узнать, где и когда искать Вашу воздыхательницу, придётся Вам пройти несколько испытаний</p>
+    <button onclick="showScreen(2)">Готов, ради дамы сердца</button>
+  </div>
+
+  <!-- Экран 2: Вояжи -->
+  <div id="screen2" class="screen">
+    <p>Припомните, сколько раз Вы вы отправлялись в вояжи длительные с вашей спутницей? Правильный ответ сделает вас на несколько вёрст ближе к цели!</p>
+    <input type="text" id="voyageAnswer" placeholder="Число...">
+    <br>
+    <button onclick="checkVoyage()">Проверить</button>
+    <p id="voyageHint" style="color: #8B0000; display:none;">Что-то запамятовали или добавили лишнего. Учитывайте только такие турне, что включали не менее четырёх восходов солнц</p>
+  </div>
+
+  <!-- Экран 3: Перевёрнутая фраза -->
+  <div id="screen3" class="screen">
+    <p>?арги яакат ьсалачан ызарф йокак С</p>
+    <input type="text" id="riddleAnswer" placeholder="Ответ...">
+    <br>
+    <button onclick="checkRiddle()">Проверить</button>
+    <p id="riddleHint" style="color: #8B0000; display:none;">Прогулка по Крылатскому, взбираемся на какой-то холм и Вы загадываете мне перевернуть фразу.... Попробуйте вписать с маленькой буквы!</p>
+  </div>
+
+  <!-- Экран 4: Фото -->
+  <div id="screen4" class="screen">
+    <p>Самый счастливый из дней</p>
+    <div class="photos">
+      <div id="photo1" class="photo-btn" onclick="shakePhoto(this)"></div>
+      <div id="photo2" class="photo-btn" onclick="shakePhoto(this)"></div>
+      <div id="photo3" class="photo-btn" onclick="shakePhoto(this)"></div>
+    </div>
+    <p id="photoMessage" style="color: #8B0000; display:none;">Неверно! Каждый из дней. Ведь в эти дни Вы были со своей ненаглядной спутницей!</p>
+    <button id="truthBtn" style="display:none;" onclick="showScreen(5)">Абсолютная правда</button>
+  </div>
+
+  <!-- Экран 5: Финал -->
+  <div id="screen5" class="screen">
+    <h1>О рыцарь, вы доблестно прошли все испытания и заслужили истинную награду — пламенный поцелуй от той, которая рада бы прийти к вам во сне, да они вам не снятся. Придётся встречаться наяву!</h1>
+    <p style="font-size:1.4rem; margin-top:20px;">
+      Награда будет ждать вас:<br>
+      11.04.2026 в 14:10<br>
+      55.769270, 37.596455
+    </p>
+    <p>Да не задержат вас тёмные силы</p>
+  </div>
+
+  <script>
+    function showScreen(n) {
+      document.querySelectorAll('.screen').forEach(el => el.classList.remove('active'));
+      document.getElementById(`screen${n}`).classList.add('active');
+    }
+
+    function checkVoyage() {
+      const ans = document.getElementById("voyageAnswer").value.trim();
+      if (ans === "4") {
+        showScreen(3);
+      } else {
+        document.getElementById("voyageHint").style.display = "block";
+      }
+    }
+
+    function checkRiddle() {
+      const ans = document.getElementById("riddleAnswer").value.trim().toLowerCase();
+      if (ans === "рех килев") {
+        showScreen(4);
+      } else {
+        document.getElementById("riddleHint").style.display = "block";
+      }
+    }
+
+    let clickedCount = 0;
+    function shakePhoto(el) {
+      el.classList.add('shake');
+      setTimeout(() => el.classList.remove('shake'), 500);
+      clickedCount++;
+      if (clickedCount >= 3) {
+        document.getElementById("photoMessage").style.display = "block";
+        document.getElementById("truthBtn").style.display = "inline-block";
+      }
+    }
+  </script>
 </body>
 </html>
