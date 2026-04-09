@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Свидание со мной? 💕</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      height: 100vh;
+      background: url('https://images.unsplash.com/photo-1519681393784-d120267933ba?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80') no-repeat center center fixed;
+      background-size: cover;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      text-align: center;
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      color: white;
+      text-shadow: 1px 1px 4px rgba(0,0,0,0.7);
+    }
+
+    h1 {
+      font-size: 2.8rem;
+      margin-bottom: 30px;
+    }
+
+    .btn {
+      background-color: #ff69b4;
+      color: white;
+      border: none;
+      padding: 14px 28px;
+      margin: 10px;
+      font-size: 1.2rem;
+      border-radius: 50px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+    }
+
+    .btn:hover {
+      background-color: #ff1493;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      h1 { font-size: 2rem; }
+      .btn { padding: 12px 24px; font-size: 1rem; }
+    }
+  </style>
+</head>
+<body>
+  <h1>Хочешь провести вечер со мной? 💖</h1>
+  
+  <!-- ЗАМЕНИ ССЫЛКИ НИЖЕ НА СВОИ -->
+  <button class="btn" onclick="window.open('https://maps.app.goo.gl/ВАША_ССЫЛКА_НА_КАРТУ', '_blank')">Куда мы идём?</button>
+  <button class="btn" onclick="window.open('https://wa.me/ВАШ_НОМЕР_ТЕЛЕФОНА', '_blank')">Написать мне 💬</button>
+  <button class="btn" onclick="window.open('https://youtu.be/ВАШЕ_ВИДЕО_ID', '_blank')">Посмотри это ❤️</button>
+</body>
+</html>
